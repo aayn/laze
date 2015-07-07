@@ -1,2 +1,2 @@
-# laze
+# Laze
 the lazy text editor
