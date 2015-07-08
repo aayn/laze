@@ -1,9 +1,11 @@
 from PyQt5.QtWidgets import (QMainWindow, QPushButton, QTextEdit,
-                             QLabel, QInputDialog, qApp, QAction)
+                             QLabel, QInputDialog, QAction)
 from PyQt5.QtGui import QFont, QColor, QIcon
+from classes.Menu import Menu
+from classes.Dialogs import Dialogs
 
 
-class windowClass(QMainWindow):
+class windowClass(Menu, Dialogs):
     def __init__(self):
         super(QMainWindow, self).__init__()
         self.initGUI()
@@ -18,26 +20,12 @@ class windowClass(QMainWindow):
 
         self.initMenu()
 
+        self.fontAction.triggered.connect(self.fontDialog)
+        self.saveAction.triggered.connect(self.saveDialog)
+        self.openAction.triggered.connect(self.openDialog)
+
         self.statusBar()
         self.statusBar().showMessage('Zzzzzzzzzzzzz...')
 
         self.setGeometry(0, 0, 800, 600)
         self.show()
-
-    def initMenu(self):
-        menu = self.menuBar()
-        menu.setNativeMenuBar(False)
-        fileMenu = menu.addMenu('&File')
-        helpMenu = menu.addMenu('&Help')
-
-        exitAction = QAction(QIcon('../images/exit.png'), '&Exit', self)
-        exitAction.setStatusTip('Exit')
-        exitAction.triggered.connect(qApp.quit)
-        fileMenu.addAction(exitAction)
-
-    def nameAsk(self):
-        name, ok = QInputDialog.getText(self, 'Input Name',
-                                        'Your name please? ')
-        if ok:
-            self.tedit.setText('Hello ' + str(name) +
-                               '. Did you sleep well?')
